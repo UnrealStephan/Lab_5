@@ -7,3 +7,7 @@
 1) Название
 2) Цена
 3) Гиперссылка на фотографию модели
+
+Ссылка на готовый .xlsx-файл
+
+https://docs.google.com/spreadsheets/d/1b53Iz0I0IDsR9UYK_G6DJmMMSl12miXS/edit?usp=sharing&ouid=115227375262358642455&rtpof=true&sd=true
