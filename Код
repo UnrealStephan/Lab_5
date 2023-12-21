@@ -1,0 +1,55 @@
+from bs4 import BeautifulSoup
+import requests
+from time import sleep
+import openpyxl
+
+from google.colab import drive
+drive.mount('/content/drive')
+
+headers =  {"User-Agent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"}
+l = ["", "PAGEN_2=2&", "PAGEN_2=3&"]
+
+def parsing():
+
+  for j in range(3):
+    
+    sleep(3)
+
+    url = f"https://guitar-guitar.ru/?q=%D1%81%D1%82%D1%83%D0%B4%D0%B8%D0%B9%D0%BD%D1%8B%D0%B9%20%D0%BA%D0%BE%D0%BD%D0%B4%D0%B5%D0%BD%D1%81%D0%B0%D1%82%D0%BE%D1%80%D0%BD%D1%8B%D0%B9%20%D0%BC%D0%B8%D0%BA%D1%80%D0%BE%D1%84%D0%BE%D0%BD&s=&{l[j]}SIZEN_2=15"
+    response = requests.get(url, headers = headers)
+    soup = BeautifulSoup(response.text, "lxml")
+    data = soup.find_all("div", class_ = "js-product-container product-list-item")
+    
+    for i in data:
+      
+      name = i.find("a", class_ = "product-name").text.replace("\t", "").replace("\n", "")
+      price = i.find("div", class_ ="bx_price").text.replace("\t", "").replace("\n", "")
+      url_img = "https://guitar-guitar.ru" + i.find("img", class_ = "lazy").get("data-src")
+      
+      yield name, price, url_img
+
+def record(parsing):
+
+  book = openpyxl.Workbook()
+  book.remove(book.active)
+  sheet_1 = book.create_sheet('Студийный конденсаторный микрофон')
+
+  sheet_1.column_dimensions['A'].width = 100
+  sheet_1.column_dimensions['B'].width = 10
+  sheet_1.column_dimensions['C'].width = 100
+
+  row = 1
+  column = 1
+
+  for item in parsing():
+
+    sheet_1.cell(row, column , item[0])
+    sheet_1.cell(row, column+1 , item[1])
+    sheet_1.cell(row, column+2,).hyperlink = item[2]
+
+    row+=1
+
+  book.save("/content/drive/MyDrive/АД и МО/Lab_5/Гитар-гитар.xlsx")
+  book.close()
+
+record(parsing)
