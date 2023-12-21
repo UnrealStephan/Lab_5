@@ -14,6 +14,8 @@ https://docs.google.com/spreadsheets/d/1b53Iz0I0IDsR9UYK_G6DJmMMSl12miXS/edit?us
 
 # Lab_6
 
+https://t.me/GuitarGuitarTelegramBot
+
 GuitarGuitarBot - это бот который благодаря алгоритму парсинга собирает данные о моделях студийных конденсаторных микрофонов, 
 представленных на сайте магазина музыкальных инструментов "Гитар-Гитар" и создаёт .xlsx-файл с этими данными
 
